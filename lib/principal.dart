@@ -13,43 +13,44 @@ class MyApp extends StatelessWidget {
 }
 
 class Principal extends StatelessWidget {
-    final ContatosRepository contatos = ContatosRepository();
-
+  final ContatosRepository contatos = ContatosRepository();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Principal'),
-      ),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Cadastro(contatos: contatos),
-                ),
-              );
-            },
-            child: Text("Cadastro"),
+        appBar: AppBar(
+          title: Text('Menu Principal'),
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Cadastro(contatos: contatos),
+                    ),
+                  );
+                },
+                child: Text("Cadastro"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Listagem(contatos: contatos),
+                    ),
+                  );
+                },
+                child: Text("Listar"),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Listagem(contatos: contatos),
-                ),
-              );
-            },
-            child: Text("Listar"),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
-
-

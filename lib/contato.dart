@@ -6,11 +6,11 @@ class ContatosRepository {
   void addContatos(Contato c) {
     contatos.add(c);
   }
+  void rmvContatos(Contato c){
+    contatos.remove(c);
+  }
 
   List<Contato> getContatos() {
     return contatos;
   }
-
-  void addcontatos(Contato contato) {}
-
 }

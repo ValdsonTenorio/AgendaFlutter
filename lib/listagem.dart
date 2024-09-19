@@ -17,6 +17,9 @@ class Listagem extends StatefulWidget {
 }
 
 class ListagemState extends State<Listagem> {
+  final TextEditingController nomeController = TextEditingController();
+  final TextEditingController telefoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final ContatosRepository contatos;
 
   ListagemState({required this.contatos});
@@ -32,13 +35,33 @@ class ListagemState extends State<Listagem> {
         itemBuilder: (context, index) {
           Contato c = contatos.getContatos()[index];
           return ListTile(
-              title: Text(c.nome),
-              subtitle: Column(
-                children: [
-                  Text(c.email),
-                  Text(c.telefone),
-                ],
-              ));
+            title: Text(
+              c.nome,
+              style: TextStyle(fontSize: 20),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(c.email),
+                Text(c.telefone),
+              ],
+            ),
+            trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      contatos.rmvContatos(Contato(
+                          nome: nomeController.text,
+                          telefone: telefoneController.text,
+                          email: emailController.text));
+                    });
+                  },
+                  child: Text('Deletar')),
+              SizedBox(width: 10,),
+              ElevatedButton(onPressed: () {}, 
+              child: Text('Editar'))
+            ]),
+          );
         },
       ),
     );
