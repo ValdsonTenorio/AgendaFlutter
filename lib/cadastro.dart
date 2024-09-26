@@ -5,80 +5,112 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class Cadastro extends StatefulWidget {
   final ContatosRepository contatos;
-  Cadastro({required this.contatos});
+  final Contato? contato;
+
+  Cadastro({required this.contatos, this.contato});
 
   @override
   State<Cadastro> createState() => _CadastroState(contatos: contatos);
 }
 
 class _CadastroState extends State<Cadastro> {
-  final TextEditingController nomeController = TextEditingController();
-  final TextEditingController telefoneController =
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController telefoneController =
       MaskedTextController(mask: '(00)00000-0000');
-  final TextEditingController emailController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   final ContatosRepository contatos;
-
   _CadastroState({required this.contatos});
+  @override
+  void initState() {
+    super.initState();
+    if (widget.contato != null) {
+      nomeController = TextEditingController(text: widget.contato!.nome);
+      telefoneController = MaskedTextController(
+          mask: '(00)00000-0000', text: widget.contato!.telefone);
+      emailController = TextEditingController(text: widget.contato!.email);
+    }
+  }
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text('Cadastro de Contatos'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-                decoration: InputDecoration(labelText: 'Entre com Nome'),
-                controller: nomeController,
-                validator: (nomeController) {
-                  if (nomeController == null || nomeController.isEmpty) {
-                    return 'Por Favor, insira o nome';
-                  }
-                  return null;
-                }),
-            TextFormField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: 'Entre com o Telefone',
-                    hintText: '(XX) XXXXX-XXXX',
-                    hintStyle: TextStyle(color: Colors.grey)),
-                controller: telefoneController,
-                validator: (telefoneController) {
-                  if (telefoneController == null || telefoneController.isEmpty) {
-                    return 'Por Favor, insira o Telefone';
-                  }
-                  return null;
-                }),
-            TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Entre com Email',
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                    decoration: InputDecoration(labelText: 'Entre com Nome'),
+                    controller: nomeController,
+                    validator: (nomeController) {
+                      if (nomeController == null || nomeController.isEmpty) {
+                        return 'Por Favor, insira o nome';
+                      }
+                      return null;
+                    }),
+                TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        labelText: 'Entre com o Telefone',
+                        hintText: '(XX) XXXXX-XXXX',
+                        hintStyle: TextStyle(color: Colors.grey)),
+                    controller: telefoneController,
+                    validator: (telefoneController) {
+                      if (telefoneController == null ||
+                          telefoneController.isEmpty ||
+                          telefoneController.length != 14) {
+                        return 'Por Favor, insira o Telefone';
+                      }
+                      return null;
+                    }),
+                TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Entre com Email',
+                    ),
+                    controller: emailController,
+                    validator: (emailController) {
+                      if (emailController == null || emailController.isEmpty) {
+                        return 'Por Favor, insira o Email';
+                      }
+                      if (RegExp(r'^[\w-.]+@([\w-]+.)+[\w-]{2,4}$')
+                          .hasMatch(emailController)) {
+                        return null;
+                      }
+                      return 'Email invalido';
+                    }),
+                SizedBox(height: 20),
+                FilledButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (widget.contato != null) {
+                        Navigator.pop(
+                            context,
+                            Contato(
+                                nome: nomeController.text,
+                                email: emailController.text,
+                                telefone: telefoneController.text));
+                      } else {
+                        setState(() {
+                          contatos.addContatos(Contato(
+                              nome: nomeController.text,
+                              email: emailController.text,
+                              telefone: telefoneController.text));
+                        });
+                        Navigator.pop(context);
+                      }
+                    }
+                  },
+                  child: Text('Salvar'),
                 ),
-                controller: emailController,
-                validator: (emailController) {
-                  if (emailController == null || emailController.isEmpty) {
-                    return 'Por Favor, insira o Email';
-                  }
-                  return null;
-                }),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  contatos.addContatos(Contato(
-                      nome: nomeController.text,
-                      email: telefoneController.text,
-                      telefone: emailController.text));
-                });
-                Navigator.pop(context);
-              },
-              child: Text('Salvar'),
+              ],
             ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }

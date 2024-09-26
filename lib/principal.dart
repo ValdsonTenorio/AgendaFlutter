@@ -7,6 +7,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSwatch(
+            cardColor: const Color.fromARGB(255, 65, 64, 64),
+            backgroundColor: Colors.white,
+            accentColor: Colors.white,
+            brightness: Brightness.dark,
+            primarySwatch: Colors.green),
+      ),
       home: Principal(),
     );
   }
@@ -19,12 +27,16 @@ class Principal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
           title: Text('Menu Principal'),
         ),
         body: Center(
           child: Column(
             children: [
-              ElevatedButton(
+              SizedBox(
+                height: 20,
+              ),
+              FilledButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -38,7 +50,7 @@ class Principal extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {
                   Navigator.push(
                     context,

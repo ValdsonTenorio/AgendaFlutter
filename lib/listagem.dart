@@ -1,3 +1,4 @@
+import 'package:agenda/cadastro.dart';
 import 'package:agenda/contato.dart';
 import 'package:flutter/material.dart';
 
@@ -47,19 +48,30 @@ class ListagemState extends State<Listagem> {
               ],
             ),
             trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-              ElevatedButton(
+              FilledButton(
                   onPressed: () {
                     setState(() {
-                      contatos.rmvContatos(Contato(
-                          nome: nomeController.text,
-                          telefone: telefoneController.text,
-                          email: emailController.text));
+                      contatos.rmvContatos(c);
                     });
                   },
                   child: Text('Deletar')),
-              SizedBox(width: 10,),
-              ElevatedButton(onPressed: () {}, 
-              child: Text('Editar'))
+              SizedBox(
+                width: 10,
+              ),
+              FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Cadastro(
+                                    contatos: contatos,
+                                    contato: c,
+                                  ))).then(
+                          (contato) => setState(() {
+                            contatos.attcontato(index, contato);
+                          }));
+                  },
+                  child: Text('Editar'))
             ]),
           );
         },
