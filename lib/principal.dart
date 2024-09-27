@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.from(
+      theme: ThemeData.from( //Propriedade para configurar o tema da página toda
         colorScheme: ColorScheme.fromSwatch(
             cardColor: const Color.fromARGB(255, 65, 64, 64),
             backgroundColor: Colors.white,
@@ -27,16 +27,16 @@ class Principal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primary,//Usa a cor primária do tema
           title: Text('Menu Principal'),
         ),
         body: Center(
           child: Column(
             children: [
               SizedBox(
-                height: 20,
+                height: 20,// Espaço entre os widgets
               ),
-              FilledButton(
+              FilledButton(// Ao clicar nesse botão ele vai para a tela de cadastro
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -50,7 +50,7 @@ class Principal extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              FilledButton(
+              FilledButton(// Ao clicar nesse botão ele vai para a tela de Listagem
                 onPressed: () {
                   Navigator.push(
                     context,

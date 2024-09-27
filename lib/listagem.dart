@@ -20,7 +20,7 @@ class Listagem extends StatefulWidget {
 class ListagemState extends State<Listagem> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController telefoneController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(); //Instância de objetos
   final ContatosRepository contatos;
 
   ListagemState({required this.contatos});
@@ -33,25 +33,25 @@ class ListagemState extends State<Listagem> {
       ),
       body: ListView.builder(
         itemCount: contatos.getContatos().length,
-        itemBuilder: (context, index) {
+        itemBuilder: (context, index) { // Recupera o contato correspondente ao índice atual
           Contato c = contatos.getContatos()[index];
           return ListTile(
             title: Text(
-              c.nome,
+              c.nome,//Pega o nome e coloca como titulo
               style: TextStyle(fontSize: 20),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            subtitle: Column(//Coluna com os dados
+              crossAxisAlignment: CrossAxisAlignment.start,// Alinha à esquerda.
               children: [
-                Text(c.email),
+                Text(c.email), 
                 Text(c.telefone),
-              ],
+              ],//Um vetor para os subtitulo
             ),
-            trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+            trailing: Row(mainAxisSize: MainAxisSize.min, children: [//Um vetor de botões em uma coluna
               FilledButton(
                   onPressed: () {
                     setState(() {
-                      contatos.rmvContatos(c);
+                      contatos.rmvContatos(c);//Chama a classe de remover contatos
                     });
                   },
                   child: Text('Deletar')),
@@ -68,7 +68,7 @@ class ListagemState extends State<Listagem> {
                                     contato: c,
                                   ))).then(
                           (contato) => setState(() {
-                            contatos.attcontato(index, contato);
+                            contatos.attcontato(index, contato);//Chama a classe para atualizar contatos
                           }));
                   },
                   child: Text('Editar'))
