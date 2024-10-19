@@ -1,4 +1,4 @@
-import 'package:novo_projeto/entidade/pessoa.dart';
+import 'package:agenda/entidade/contato.dart';
 
 abstract class InterfaceDao {
 
